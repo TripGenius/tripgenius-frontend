@@ -1,0 +1,17 @@
+name: Notify Fork
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  notify-fork:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger sync in fork
+        run: |
+          curl -X POST https://api.github.com/repos/YOUR_USERNAME/YOUR_FORKED_REPO/dispatches \
+            -H "Accept: application/vnd.github.v3+json" \
+            -H "Authorization: token ${{ secrets.FORK_DISPATCH_TOKEN }}" \
+            -d '{"event_type": "sync-upstream"}'
